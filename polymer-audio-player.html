@@ -1,5 +1,7 @@
 <link rel="import" href="bower_components/polymer/polymer.html">
-<link rel="import" href="bower_components/paper-progress/paper-progress.html"
+<link rel="import" href="bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="bower_components/iron-icons/av-icons.html">
 
 <!--
 `polymer-audio-player`
@@ -70,6 +72,10 @@ audio player made with polymer
         color: darkorange;
       }
 
+      #play, #pause {
+        color: #fff;
+      }
+
       #wrapper {
         position: relative; 
         box-shadow: 0 1px 2px rgba(0, 0, 0, .3); 
@@ -101,7 +107,18 @@ audio player made with polymer
     </style>
     <div id="wrapper" class="layout-horizontal" on-click="playPause">
       <div id="left" class="self-start">
-
+        <iron-icon 
+          id="play"
+          class="fit"
+          icon="av:play-circle-outline"
+          hidden$="{{isPlaying}}"> 
+        </iron-icon>
+        <iron-icon 
+          id="pause"
+          class="fit"
+          icon="av:pause-circle-outline"
+          hidden$="{{!isPlaying}}"> 
+        </iron-icon>
       </div>
       <div class="flex">
         <div id="title" class="fit">
@@ -112,7 +129,7 @@ audio player made with polymer
       </div>
       <div id="right" class="self-end">
         <div id="duration" class="fit">
-          <span class="fit"> {{duration}} </span>
+          <span class="fit"> {{_convertSecondsToMinutes(duration)}} </span>
         </div>
       </div>
     </div>
@@ -153,17 +170,34 @@ audio player made with polymer
 
       playPause: function(event) {
         event.preventDefault()
-        var player = this
-        player.$.audio.paused ? player.$.audio.play() : player.$.audio.pause()
+        let player = this
+        if(player.$.audio.paused) {
+          player.$.audio.play() 
+          player.isPlaying = true
+        } else {
+          player.$.audio.pause() 
+          player.isPlaying = false
+        }
+      },
+
+      /* audio elements provides duration of source in seconds. change it to mm:ss */
+      _convertSecondsToMinutes: function(seconds) {
+        if(seconds === 0) {
+          return ''
+        }
+        let minutes = Math.floor(seconds / 60)
+        let secondsToCalculate = Math.floor(seconds % 60) + ''
+        return minutes + ':' + (secondsToCalculate.length < 2 ? '0' + secondsToCalculate : secondsToCalculate)
       },
 
       _onCanPlay: function() {
-        var player = this
+        let player = this
         player.$.progress.max = player.$.audio.duration * 1000
+        player.duration = player.$.audio.duration
       },
 
       _startProgressTimer: function() {
-        var player = this
+        let player = this
         player.timer = {}
 
         if(player.timer.sliderUpdateInterval) {
