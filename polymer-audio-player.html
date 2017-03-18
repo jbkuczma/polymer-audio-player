@@ -1,0 +1,34 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<!--
+`polymer-audio-player`
+audio player made with polymer
+
+@demo demo/index.html 
+-->
+
+<dom-module id="polymer-audio-player">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'polymer-audio-player',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'polymer-audio-player',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
