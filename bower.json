@@ -3,7 +3,8 @@
   "description": "audio player made with polymer",
   "main": "polymer-audio-player.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "paper-progress": "PolymerElements/paper-progress#^1.0.11"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
